@@ -1,0 +1,187 @@
+/* ------- CSS Reset ------- */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* ------- Styling Signed IN Screen ------- */
+body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#screen-logged-in {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+
+nav {
+  height: 60px;
+  width: 100vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #564592;
+}
+
+.nav-left {
+  margin-left: 10px;
+}
+
+.nav-right {
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+}
+
+#button-logout, #button-send {
+  height: 30px;
+  padding: 0 10px;
+
+  border-radius: 5px;
+  font-size: 16px;
+  border: none;
+}
+
+#main {
+  width: 100vw;
+  flex: auto;
+  background-color: #EDF67D;
+  overflow: auto;
+}
+
+footer {
+  height: 60px;
+  width: 100vw;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #564592;
+}
+
+#container {
+  height: 100%;
+  width: 100%;
+
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+}
+
+.message-container {
+  min-height: 30px;
+  width: 50%;
+
+  align-self: flex-start;
+  margin: 5px;
+  background-color:#724CF9;
+  border-radius: 3px;
+
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: center;
+}
+
+.message {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.own {
+  align-self: flex-end;
+  background-color: #F896D8;
+}
+
+.chat-input {
+  height: 30px;
+  padding: 10px;
+  background-color:#564592;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#message-input {
+  height: 30px;
+  width: 80%;
+  border-radius: 3px;
+  padding: 0 10px;
+  font-size: 20px;
+  border: none;
+}
+
+/* ------- Styling Signed Out Screen ------- */
+#screen-logged-out {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #564592;
+}
+
+#button-login {
+  height: 30px;
+  padding: 0 10px;
+
+  border-radius: 5px;
+  font-size: 16px;
+  border: none;
+}

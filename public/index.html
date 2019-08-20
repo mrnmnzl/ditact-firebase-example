@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Chat App</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script defer src="/__/firebase/6.3.5/firebase-app.js"></script>
+    <script defer src="/__/firebase/6.3.5/firebase-auth.js"></script>
+    <script defer src="/__/firebase/6.3.5/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+  </head>
+  <body>
+    <!-- Chatscreen, wenn eingeloggt -->
+    <div id="screen-logged-in">
+      <!-- Header -->
+      <nav>
+        <div class="nav-left">
+          <h1 class="title">Chat App</h1>
+        </div>
+        <div class="nav-right">
+          <button id="button-logout">Logout</button>
+        </div>
+      </nav>
+      <!-- Container für die Nachrichten -->
+      <div id="main">
+        <div id="container">
+        </div>
+      </div>
+      <!-- Eingabefeld für Nachrichten -->
+      <div class="chat-input">
+        <form>
+          <input id="message-input" type="text" placeholder="Nachricht eingeben">
+          <button id="button-send">⬆</button>
+        </form>
+      </div>
+    </div>
+    <!-- Screen, wenn nicht eingeloggt -->
+    <div id="screen-logged-out">
+      <p class="title">Einloggen zum Chatten</p>
+      <button id="button-login" type="submit" >Login</button>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          let app = firebase.app();
+        } catch (e) {
+          console.error(e);
+        }
+
+        // Check if user is logged in, show chat if so
+        firebase.auth().onAuthStateChanged(user => { 
+          let loginScreen = document.getElementById('screen-logged-out');
+          let chatScreen = document.getElementById('screen-logged-in');
+          if(user) {
+            loginScreen.style.display = 'none';
+            chatScreen.style.display = 'flex';
+          } else {
+            loginScreen.style.display = 'flex';
+            chatScreen.style.display = 'none';
+          }
+        });
+
+        // Add login event and show user google popup
+        document.getElementById('button-login').addEventListener('click', () => {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          firebase.auth().signInWithPopup(provider);
+        })
+
+        // Add logout event
+        document.getElementById('button-logout').addEventListener('click', () => {
+          firebase.auth().signOut();
+        })
+
+        // Add submit event, check if input and send message to firebase
+        document.getElementById('button-send').addEventListener('click', (e) => {
+          e.preventDefault();
+          let text = document.getElementById('message-input').value;
+          let userId = firebase.auth().currentUser.uid;
+          
+          if(text && userId) {
+            firebase.database().ref("/messages").push({user: userId, message: text});
+            document.getElementById('message-input').value = "";
+          }
+        })
+
+        // Firebase listener which returns all messages -> print message to screen
+        firebase.database().ref("/messages").on("value", snapshot => {
+          const messages = Object.values(snapshot.val());
+          const userId = firebase.auth().currentUser.uid;
+          const container = document.getElementById('container');
+          container.innerHTML = "";
+
+          for (message of messages) {
+            if(message.user === userId) {
+              container.insertAdjacentHTML('beforeend', `<div class="message-container own">
+               <p class="message">${message.message}</p></div>`);
+            } else {
+              container.insertAdjacentHTML('beforeend', `<div class="message-container">
+               <p class="message">${message.message}</p></div>`);
+            }
+          }
+        })
+      });
+    </script>
+  </body>
+</html>
